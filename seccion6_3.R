@@ -899,10 +899,14 @@ desigualdad %>% ggplot(aes(x=Trimestre, y=Gini, color=Region)) +
   scale_x_continuous(breaks = c(1:10)) +
   theme(text = element_text(size=30))
 
-desigualdad %>% ggplot(aes(x=Region, y=Gini)) +
-  geom_boxplot() +
+desigualdad %>% ggplot(aes(x=Region, y=Gini, color=Region)) +
+  coord_flip() +
+  geom_boxplot(color = "grey60", outlier.alpha = 0) +
+  geom_point(size = 3, alpha = 0.15) +
+  xlab("") +
   theme_classic() +
-  theme(text = element_text(size=30))
+  theme(text = element_text(size=40),
+        legend.position = "none")
 
 desigualdad %>% group_by(Region) %>% summarise(media=mean(Gini), sd=sd(Gini))
 
@@ -915,12 +919,14 @@ varimp_gba %>%
   group_by(Variable) %>%
   summarise(Importancia=mean(Importancia)) %>%
   ungroup() %>%
+  mutate(Variable = fct_reorder(Variable, Importancia)) %>%
   ggplot(aes(x=Variable, y=Importancia)) +
-  geom_col(fill="blue") +
+  geom_col(fill="cyan") +
   coord_flip() +
-  labs(title= "GBA") +
+  xlab("") +
+  ylab("") +
   theme_classic() +
-  theme(text = element_text(size=30))
+  theme(text = element_text(size=45))
 rm(list=ls())
 load("trimestrales_noa.Rda")
 varimp_noa %>%
@@ -930,12 +936,14 @@ varimp_noa %>%
   group_by(Variable) %>%
   summarise(Importancia=mean(Importancia)) %>%
   ungroup() %>%
+  mutate(Variable = fct_reorder(Variable, Importancia)) %>%
   ggplot(aes(x=Variable, y=Importancia)) +
-  geom_col(fill="blue") +
+  geom_col(fill="cyan") +
   coord_flip() +
-  labs(title= "NOA") +
+  xlab("") +
+  ylab("") +
   theme_classic() +
-  theme(text = element_text(size=30))
+  theme(text = element_text(size=45))
 rm(list=ls())
 load("trimestrales_nea.Rda")
 varimp_nea %>%
@@ -945,12 +953,14 @@ varimp_nea %>%
   group_by(Variable) %>%
   summarise(Importancia=mean(Importancia)) %>%
   ungroup() %>%
+  mutate(Variable = fct_reorder(Variable, Importancia)) %>%
   ggplot(aes(x=Variable, y=Importancia)) +
-  geom_col(fill="blue") +
+  geom_col(fill="cyan") +
   coord_flip() +
-  labs(title= "NEA") +
+  xlab("") +
+  ylab("") +
   theme_classic() +
-  theme(text = element_text(size=30))
+  theme(text = element_text(size=45))
 rm(list=ls())
 load("trimestrales_cuyo.Rda")
 varimp_cuyo %>%
@@ -960,12 +970,14 @@ varimp_cuyo %>%
   group_by(Variable) %>%
   summarise(Importancia=mean(Importancia)) %>%
   ungroup() %>%
+  mutate(Variable = fct_reorder(Variable, Importancia)) %>%
   ggplot(aes(x=Variable, y=Importancia)) +
-  geom_col(fill="blue") +
+  geom_col(fill="cyan") +
   coord_flip() +
-  labs(title= "Cuyo") +
+  xlab("") +
+  ylab("") +
   theme_classic() +
-  theme(text = element_text(size=30))
+  theme(text = element_text(size=45))
 rm(list=ls())
 load("trimestrales_pamp.Rda")
 varimp_pamp %>%
@@ -975,12 +987,14 @@ varimp_pamp %>%
   group_by(Variable) %>%
   summarise(Importancia=mean(Importancia)) %>%
   ungroup() %>%
+  mutate(Variable = fct_reorder(Variable, Importancia)) %>%
   ggplot(aes(x=Variable, y=Importancia)) +
-  geom_col(fill="blue") +
+  geom_col(fill="cyan") +
   coord_flip() +
-  labs(title= "Pampeana") +
+  xlab("") +
+  ylab("") +
   theme_classic() +
-  theme(text = element_text(size=30))
+  theme(text = element_text(size=45))
 rm(list=ls())
 load("trimestrales_pata.Rda")
 varimp_pata %>%
@@ -990,9 +1004,11 @@ varimp_pata %>%
   group_by(Variable) %>%
   summarise(Importancia=mean(Importancia)) %>%
   ungroup() %>%
+  mutate(Variable = fct_reorder(Variable, Importancia)) %>%
   ggplot(aes(x=Variable, y=Importancia)) +
-  geom_col(fill="blue") +
+  geom_col(fill="cyan") +
   coord_flip() +
-  labs(title= "Patagonia") +
+  xlab("") +
+  ylab("") +
   theme_classic() +
-  theme(text = element_text(size=30))
+  theme(text = element_text(size=45))

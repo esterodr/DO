@@ -35,7 +35,11 @@ bases_eph$n_trabaj_hogar_np <- as.factor(bases_eph$n_trabaj_hogar_np)
 bases_eph$Miembros_hogar_np <- as.factor(bases_eph$Miembros_hogar_np)
 bases_eph$Menores_10_np <- as.factor(bases_eph$Menores_10_np)
 
-### Estimación
+
+#####################
+### Estimación Caso 1
+#####################
+
 df <- bases_eph 
   ## Train y test sets
   set.seed(1)
@@ -90,24 +94,13 @@ rmse_comp <- data.frame(Observacion=c(1:200),
                         N = rep(NA,200),
                         p = rep(NA,200))
 
-rmse_comp %>% 
-  gather(Metodo, Error_relativo, -c(Observacion, N, p)) %>%
-  ggplot() +
-  geom_boxplot(aes(x=Metodo, y=Error_relativo)) +
-  ylab("RMSE / RMSE(RF)") +
-  geom_hline(yintercept = 1) +
-  theme_classic() +
-  theme(text = element_text(size=20))
-
-save.image(file="comparaciones_total.Rda")
-
 rmse_comp$N <- rep(nrow(bases_eph),200)
 rmse_comp$p <- rep(length(fit_p$coefficients),200)
 
-save.image(file="comparaciones_total.Rda")
 
-
-### Lo mismo con menos variables
+###################
+# Estimación Caso 2
+###################
 
 bases_eph2 <- bases_eph %>%
      select(-c(MAS_500, Reg_Tenencia, Resid_5_años))
@@ -166,21 +159,10 @@ rmse_comp2 <- data.frame(Observacion=c(1:200),
                         N = rep(NA,200),
                         p = rep(NA,200))
 
-rmse_comp2 %>% 
-  gather(Metodo, Error_relativo, -c(Observacion, N, p)) %>%
-  ggplot() +
-  geom_boxplot(aes(x=Metodo, y=Error_relativo)) +
-  ylab("RMSE / RMSE(RF)") +
-  geom_hline(yintercept = 1) +
-  theme_classic() +
-  theme(text = element_text(size=20))
-
 rmse_comp2$N <- rep(nrow(bases_eph2),200)
 rmse_comp2$p <- rep(length(fit_p2$coefficients),200)
 
 rmse_comp <- rbind(rmse_comp, rmse_comp2)
-
-save.image(file="comparaciones_total.Rda")
 
 names(rmse_comp) <- c("Observacion", "Paramétrico", "No paramétrico", "N", "p")
 
@@ -190,7 +172,7 @@ rmse_comp %>%
   ggplot(aes(x=Metodo, y=Error_relativo, color=Metodo)) +
   geom_boxplot(color = "grey60", outlier.alpha = 0) +
   geom_point(size = 3, alpha = 0.15) +
-  ylab("RMSE / RMSE(Bosque)") +
+  ylab("\nRMSE / RMSE(Bosque)") +
   xlab("") +
   coord_flip() +
   geom_hline(yintercept = 1, linetype="dotted") +
@@ -204,7 +186,7 @@ rmse_comp %>%
   ggplot(aes(x=Metodo, y=Error_relativo, color=Metodo)) +
   geom_boxplot(color = "grey60", outlier.alpha = 0) +
   geom_point(size = 3, alpha = 0.15) +
-  ylab("RMSE / RMSE(Bosque)") +
+  ylab("\nRMSE / RMSE(Bosque)") +
   xlab("") +
   coord_flip() +
   geom_hline(yintercept = 1, linetype="dotted") +
